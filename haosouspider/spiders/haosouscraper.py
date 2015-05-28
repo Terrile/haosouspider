@@ -11,12 +11,13 @@ import math
 import urllib
 from scrapy import log
 from pprint import pprint
-from ..items import HaosouspiderItem
+from ..items import SearchResultItem
 import urllib2
 import codecs
-TASK_INPUT_FILE = './task/task.txt'
+from pprint import pprint
+TASK_INPUT_FILE = '../task/task.txt'
 class HaosouSpider(scrapy.Spider):
-    name = "bingspider"
+    name = "haosouspider"
     allowed_domains = ["bing.com"]
     start_urls = []
     target_site = 'vdisk.weibo.com'
@@ -32,18 +33,18 @@ class HaosouSpider(scrapy.Spider):
 
     def parse(self, response):
         html_txt = response.body.decode("utf-8","ignore")
-       # print html_txt
+        #print html_txt
         hxs = Selector(text=html_txt)
-        items = hxs.xpath('//ol[@id="m-result"]/li[@class="first"]')
+        items = hxs.xpath('//ul[@id="m-result"]/li[@class="res-list"]')
         query = response.url
 
         if items:
             rank = 0
             for item in items:
-                title = item.xpath('.//h3[@class="res-title"]/a')
-                url = item.xpath('.//h3[@class="res-title"]/a/@href')
-                caption = item.xpath('.//p[@class="res-desc"]/p')
-                search_res = HaosouspiderItem()
+                title = item.xpath('.//h3/a')
+                url = item.xpath('.//h3/a/@href')
+                caption = item.xpath('.//p')
+                search_res = SearchResultItem()
                 search_res['query'] = query
                 search_res['title'] = title.select('string()').extract()[0]
                 search_res['url'] = url.extract()[0]

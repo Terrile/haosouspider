@@ -12,6 +12,12 @@ BOT_NAME = 'haosouspider'
 
 SPIDER_MODULES = ['haosouspider.spiders']
 NEWSPIDER_MODULE = 'haosouspider.spiders'
-
+DOWNLOADER_MIDDLEWARES = {
+        'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware' : None,
+        'haosouspider.rotate_useragent.RotateUserAgentMiddleware' :400
+    }
+ITEM_PIPELINES = ['haosouspider.pipelines.DumpSearchResPipeline']
+DOWNLOAD_DELAY = 2
+COOKIES_ENABLED = False
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'haosouspider (+http://www.yourdomain.com)'

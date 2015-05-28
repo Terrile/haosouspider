@@ -7,7 +7,7 @@
 
 import scrapy
 from scrapy.item import  Item,Field
-class HaosouspiderItem(scrapy.Item):
+class SearchResultItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     query = Field()
